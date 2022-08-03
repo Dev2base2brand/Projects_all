@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@300;400;500;600&display=swap");
+
+/* Utilities START */
+:root {
+  --inter: "Inter", sans-serif;
+  --poppins: "Poppins", sans-serif;
+  --secondary: #e76f51;
+}
+
+.font-poppins {
+  font-family: var(--poppins);
+}
+
+.font-inter {
+  font-family: var(--inter);
+}
+
+body {
+  font-family: var(--poppins);
+}
+
+.fw-medium {
+  font-weight: 500;
+}
+
+/* Utilities END */
+
+/* Header Style Start */
+header {
+  background-color: #264653;
+}
+
+.btn-purchase {
+  background-color: var(--secondary);
+}
+
+.header-paragraph {
+  color: #e0e0e0;
+}
+/* Header Style END */
+
+/* Featured Bikes START*/
+
+.best-bike {
+  color: var(--secondary);
+  position: relative;
+}
+.best-bike::after {
+  position: absolute;
+  content: "";
+  height: 2px;
+  bottom: -4px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  width: 50%;
+  background: var(--secondary);
+  -o-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.best-bike:hover::after {
+  width: 80%;
+  background: orange;
+}
+
+.darken {
+  background-color: gray;
+  mix-blend-mode: luminosity;
+}
+
+/* Feature Bikes END */
+
+/* Latest News START */
+.read-more {
+  color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+.read-more.active,
+.read-more:hover {
+  background-color: var(--secondary);
+  color: white;
+}
+.rounded-lg {
+  border-radius: 10px;
+}
+/* Latest news END */
+
+/* Feedback START */
+.yellow-text {
+  color: var(--secondary);
+}
+
+.feedback-person {
+  width: 149px;
+  height: 149px;
+}
+
+.person-link {
+  color: #23a6f0;
+}
+/* Feedback END */

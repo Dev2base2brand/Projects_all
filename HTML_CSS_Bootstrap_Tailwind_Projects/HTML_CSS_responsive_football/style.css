@@ -1,0 +1,433 @@
+/* imported styles and utilities START*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap");
+
+:root {
+  --header-bg-color: #2d25a0;
+  --button-bg-color: #e02c6d;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+a.watch {
+  text-decoration: none;
+  background-color: var(--button-bg-color);
+  color: white;
+  display: inline-block;
+  padding: 10px 24px;
+  text-transform: capitalize;
+}
+
+a.watch i {
+  margin-left: 8px;
+}
+/* imported styles and utilities END*/
+
+/* Header Styles START*/
+@keyframes header-bg-animation {
+  from {
+    background: url("images/copa-america-logo-2.png") 10% 10%/200px auto
+        no-repeat,
+      url("images/texture-1.png") no-repeat 0% 120%,
+      url("images/texture-4.png") no-repeat 120% 120%,
+      url("images/texture-2.png") no-repeat 40% 150%,
+      var(--header-bg-color) url("images/footer-bg.png") repeat fixed center;
+  }
+  to {
+    background: url("images/copa-america-logo-2.png") 10% 10%/200px auto
+        no-repeat,
+      url("images/texture-1.png") no-repeat 0% 100%,
+      url("images/texture-4.png") no-repeat 100% 100%,
+      url("images/texture-2.png") no-repeat 40% 76%,
+      var(--header-bg-color) url("images/footer-bg.png") repeat fixed center;
+  }
+}
+
+header {
+  min-height: 650px;
+  width: 100%;
+  background: url("images/copa-america-logo-2.png") 10% 10%/200px auto no-repeat,
+    url("images/texture-1.png") no-repeat 0% 100%,
+    url("images/texture-4.png") no-repeat 100% 100%,
+    url("images/texture-2.png") no-repeat 40% 76%,
+    var(--header-bg-color) url("images/footer-bg.png") repeat fixed center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 70px;
+}
+
+header:hover {
+  animation: header-bg-animation 0.4s ease-out 0s 1 alternate backwards;
+}
+
+header .intro-area h1 {
+  font-size: 64px;
+  max-width: 485px;
+  width: 100%;
+  color: #fff;
+  line-height: 80px;
+  margin-bottom: 27px;
+}
+
+header .banner {
+  margin-left: 102px;
+  max-width: 600px;
+  width: 100%;
+  height: 438px;
+  position: relative;
+  background-image: url("images/player_bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+header .banner .player {
+  width: 100%;
+  max-width: 556px;
+  height: auto;
+}
+
+header .banner .ball {
+  position: absolute;
+  top: 106px;
+  left: 40px;
+}
+
+/* Player Animation */
+@keyframes playermotion {
+  from {
+    transform: translate(200px, 0px) rotate3d(50, 70, -60, 50deg);
+  }
+  to {
+    transform: translate(0px, 0px) rotate3d(0, 0, 0, 0deg);
+  }
+}
+
+header:hover .banner .player {
+  animation: playermotion 0.4s ease 0s 1 alternate backwards;
+}
+
+header:hover .banner .ball {
+  top: -200px;
+  left: -200px;
+  transition: all 0.4s ease-out 0.4s;
+}
+/* Header Styles END*/
+
+/* Main Styles START */
+
+/* Player Section Start */
+main .players {
+  display: grid;
+  grid-template-columns: repeat(3, 300px);
+  grid-column-gap: 30px;
+  grid-row-gap: 27px;
+  justify-content: center;
+  align-items: center;
+}
+
+main .players .player {
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+}
+
+main .players .player img {
+  width: 100%;
+  height: auto;
+}
+
+main .players .player h3 {
+  font-size: 28px;
+  margin: 14px 0 10px;
+  color: #18191f;
+}
+
+main .players .player p {
+  font-size: 16px;
+  line-height: 26px;
+  color: #6c6c6c;
+  margin: 0px;
+  text-align: justify;
+}
+/* Player Section End */
+
+/* Highlight Styles START */
+.highlights {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 66px;
+  margin: 165px 15px 0px;
+}
+
+.highlight-message {
+  max-width: 470px;
+  width: 100%;
+}
+
+.highlight-message h2 {
+  font-size: 48px;
+  line-height: 60px;
+  margin-bottom: 8px;
+  color: #0a0826;
+}
+.highlight-message p {
+  line-height: 28px;
+  color: #6c6c6c;
+  text-align: justify;
+  margin-top: 0 0 24px;
+}
+
+.highlights iframe {
+  width: 100%;
+  height: auto;
+  max-width: 570px;
+  min-height: 427px;
+}
+/* Highlight Style END */
+
+/* Gallary Style START */
+.gallary {
+  margin: 100px 15px;
+}
+.gallary h2 {
+  font-size: 48px;
+  line-height: 60px;
+  margin-bottom: 20px;
+  color: #0a0826;
+}
+.gallary .images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-auto-rows: 300px;
+  grid-gap: 5px;
+  grid-auto-flow: dense;
+}
+
+.gallary .images img {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  object-fit: cover;
+}
+
+.gallary .images .horizontal {
+  grid-column: span 2;
+}
+
+.gallary .images .vertical {
+  grid-row: span 2;
+}
+
+.gallary .images .big {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* Gallary Style END*/
+
+/* Contact START */
+
+.contact {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 15px;
+}
+
+.contact .apps,
+.contact .applink{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  margin-left: 100px;
+  width: 100%;
+  max-width: 500px;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: var(--button-bg-color);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+}
+
+input[type=submit]:hover {
+  background-color: var(--header-bg-color);
+}
+
+
+/* Contact END */
+
+/* Footer Style Start */
+footer {
+  width: 100%;
+  margin: 100px auto 0;
+  padding: 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: url("images/footer-bg.png") repeat fixed center;
+}
+footer img {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  margin: 0;
+}
+
+footer .social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer p {
+  text-align: center;
+  color: white;
+}
+/* Footer Style END */
+
+/* Main Styles END */
+
+/* Responsive Styles for TAB START */
+@media screen and (max-width: 992px) {
+  header {
+    margin-bottom: 47px;
+    background: url("images/copa-america-logo-2.png") 50% 10%/200px auto
+        no-repeat,
+      url("images/texture-1.png") no-repeat 0% 100%,
+      url("images/texture-4.png") no-repeat 100% 100%,
+      url("images/texture-2.png") no-repeat 40% 76%,
+      var(--header-bg-color) url("images/footer-bg.png") repeat fixed center;
+  }
+
+  header .banner,
+  header .intro-area,
+  header .intro-area h1 {
+    width: 100%;
+  }
+
+  header .intro-area h1 {
+    font-size: 36px;
+    line-height: 50px;
+  }
+
+  header .intro-area,
+  header .banner {
+    margin-left: 15px;
+  }
+
+  .highlight-message h2 {
+    font-size: 28px;
+    line-height: 40px;
+  }
+
+  header .banner .ball,
+  header .banner .player {
+    display: none;
+  }
+
+  header .banner {
+    background-image: url("images/banner.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin-left: 0px;
+  }
+
+  main .players {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+  }
+
+  main .players .player {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .highlights iframe {
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .highlights,
+  footer {
+    margin-top: 60px;
+  }
+
+  footer img {
+    max-width: 275px;
+  }
+}
+/* Responsive Styles for TAB END */
+
+/* Responsive Styles for Mobile START */
+@media screen and (max-width: 768px) {
+  header {
+    padding-top: 150px;
+  }
+  header,
+  .highlights {
+    flex-direction: column;
+  }
+  main .players {
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .gallary .images {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .gallary .images .horizontal {
+    grid-column: auto;
+  }
+
+  .gallary .images .vertical {
+    grid-row: auto;
+  }
+
+  .gallary .images .big {
+    grid-column: auto;
+    grid-row: span 2;
+  }
+
+  .contact{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contact form {
+    margin: 50px 15px 0;
+  }
+}
+/* Responsive Styles for Mobile END */

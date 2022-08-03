@@ -1,0 +1,1561 @@
+<script defer src="{{ 'jquery.min.js' | asset_url }}"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<script defer src="{{ 'custom_variant.js' | asset_url }}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+{% render "product" %}
+<script defer type="text/javascript">
+var productTags = [];
+  
+{% for tag in product.tags %}
+  productTags.push('{{ tag }}');
+{% endfor %}
+                   
+var customTag = false;
+var customProperties = {};
+
+var addStyle = function(url) {
+    var style = document.createElement("link")
+    style.rel = 'stylesheet';
+    style.type = 'text/css';
+    style.href = url;
+    document.getElementsByTagName("head")[0].appendChild(style);
+};
+
+function isMyScriptLoaded(url) {
+    if (!url) url = "http://xxx.co.uk/xxx/script.js";
+    var scripts = document.getElementsByTagName('script');
+    for (var i = scripts.length; i--;) {
+//         console.log(scripts[i].src)
+        if (scripts[i].src == url) return true;
+    }
+    return false;
+}
+
+var addScript = function(url, callback) {
+//     console.log(isMyScriptLoaded(url))
+    if (!isMyScriptLoaded(url)) {
+        var script = document.createElement("script")
+        script.type = "text/javascript";
+        if (script.readyState) {
+            script.onreadystatechange = function() {
+                if (script.readyState == "loaded" ||
+                    script.readyState == "complete") {
+                    script.onreadystatechange = null;
+                    callback();
+                }
+            };
+        } else {
+            script.onload = function() {
+                callback();
+            };
+        }
+        script.src = url;
+        document.getElementsByTagName("head")[0].appendChild(script);
+    } else {
+        callback();
+    }
+};
+
+// Custom Word Text Config
+if (!customTag) {
+    customTag = productTags.includes('C1') ? 'C1' : false
+    customProperties = {
+        '_text': ''
+    }
+
+    addStyle('http://fonts.cdnfonts.com/css/autumn-in-november')
+}
+
+// custom UV Rustic Frame Config
+if (!customTag) {
+    customTag = productTags.includes('DH4') ? 'DH4' : false
+    customProperties = {
+        '_img': ''
+    }
+}
+
+if (!customTag) {
+    customTag = productTags.includes('A1') ? 'A1' : false
+}
+
+// In Loving Memory Monogram Config
+if (!customTag) {
+    customTag = productTags.includes('DH20') ? 'DH20' : false
+    customProperties = {
+        '_text': '',
+        '_date': ''
+    }
+
+    addStyle('https://fonts.googleapis.com/css2?family=Stardos+Stencil')
+}
+
+if (!customTag) {
+    customTag = productTags.includes('DH14') ? 'DH14' : false
+
+    addStyle('http://fonts.cdnfonts.com/css/georgia')
+
+    customProperties = {
+        '_text': '',
+        '_letter': ''
+    }
+}
+// Image Cropper Style
+addStyle('https://cdnjs.cloudflare.com/ajax/libs/cropper/3.0.0-rc/cropper.min.css')
+
+const APP_URL = "https://drophook-backend.codersarray.com";
+var load = false;
+var previewDone = true
+var customimg = '';
+var cropper = '';
+var form = new FormData();
+var modal = document.getElementById("myModal");
+
+function croppercrop() {
+    console.log('cropping done')
+    cropper.getCroppedCanvas().toBlob((blob) => {
+//         console.log(blob)
+        form.set('image', blob);
+        document.querySelector('.slick-active #main_prod_img').style.display = "none";
+        document.querySelector('.slick-active .result').style.display = "none"
+        document.querySelector('.slick-active .custom-loader').style.display = "block"
+        saveimg();
+        cropperclear()
+    });
+}
+
+function cropperclear() {
+    console.log('cropping clear')
+    modal.style.display = "none";
+    document.querySelector('input[type="file"]').value = ""
+    document.querySelector('.choose_file_btn').innerText = "Choose File"
+    document.querySelector('.file_name').innerText = "*No file chosen"
+}
+
+var loadScript_pplr = function(url, callback) {
+    var script = document.createElement("script")
+    script.type = "text/javascript";
+    if (script.readyState) {
+        script.onreadystatechange = function() {
+            if (script.readyState == "loaded" ||
+                script.readyState == "complete") {
+                script.onreadystatechange = null;
+                callback();
+            }
+        };
+    } else {
+        script.onload = function() {
+            callback();
+        };
+    }
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+};
+
+// custom UV Rustic Frame Product
+var DH4 = event => {
+
+
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            document.querySelector('input[type="file"]').value = ""
+            document.querySelector('.choose_file_btn').innerText = "Choose File"
+            document.querySelector('.file_name').innerText = "*No file chosen"
+        }
+    }
+
+
+    var output = document.getElementById('blah');
+
+
+    output.src = URL.createObjectURL(event.target.files[0]);
+
+    form.append("image", event.target.files[0])
+    output.onload = function() {
+        merge()
+    }
+
+    document.querySelector('.file_name').innerText = event.target.files[0].name
+    document.querySelector('.choose_file_btn').innerText = event.target.files[0].name
+    var file = document.getElementById('input_img');
+
+    function merge() {
+
+        document.querySelector('.slick-active #main_prod_img').style.display = "none";
+        document.querySelector('.slick-active .result').style.display = "none"
+        document.querySelector('.slick-active .custom-loader').style.display = "block"
+
+        saveimg();
+
+    }
+};
+
+function saveimg() {
+
+    document.querySelector('.add_to_cart_btn button').setAttribute('disabled', true)
+    document.querySelector('.add_to_cart_btn button').style.cursor = "not-allowed"
+
+    var settings = {
+        "url": APP_URL + "/api/v1/shopify/upload/image",
+        "method": "POST",
+        "timeout": 0,
+        "processData": false,
+        "mimeType": "multipart/form-data",
+        "contentType": false,
+        "data": form
+    };
+
+    $.ajax(settings).done(function(response) {
+        console.log(response);
+        var jx = JSON.parse(response);
+        console.log(jx)
+        customimg = jx.result.imageWithFrame
+        customProperties._img = customimg
+        console.log(customimg)
+        let resEle = document.querySelector(".slick-active .result");
+        resEle.width = 800;
+        resEle.height = 800;
+        var context = resEle.getContext("2d");
+        var img = new Image();
+        img.onload = function() {
+            context.drawImage(img, 0, 0);
+        };
+        img.src = customimg;
+
+        document.querySelector('.add_to_cart_btn button').removeAttribute('disabled')
+        document.querySelector('.add_to_cart_btn button').style.cursor = "pointer"
+        document.querySelector('.slick-active .result').style.display = "block"
+        document.querySelector('input[type="file"]').value = ""
+        document.querySelector('.choose_file_btn').innerText = "Choose File"
+        document.querySelector('.slick-active .custom-loader').style.display = "none"
+		
+        if(previewDone){
+          previewDone = false
+          document.querySelector('.live_preview').click()
+        }
+        
+    });
+}
+// Image Cropper
+var ImageCropper = (event) => {
+    event.preventDefault()
+    var result = document.querySelector('.results');
+    let img1 = document.createElement('img');
+    img1.id = 'image';
+    img1.src = document.getElementById('blah').src
+
+    img1.onload = function() {
+        result.innerHTML = '';
+        result.appendChild(img1);
+
+        addScript('https://cdnjs.cloudflare.com/ajax/libs/cropper/3.0.0-rc/cropper.min.js', function() {
+            console.log('cropper added')
+
+            var $image = $('#image'),
+                height = $image.height() + 4;
+
+            $('.preview').css({
+                width: '100%',
+                overflow: 'hidden',
+                height: height,
+                maxWidth: $image.width(),
+                maxHeight: height
+            });
+
+			console.log((document.querySelector('.preview_mobile_col').offsetWidth - ((document.querySelector('.preview_mobile_col').offsetWidth/100) *40)))
+                        
+            $image.cropper({
+                aspectRatio: 16 / 9,
+                rotatable: true,
+                scalable: true,
+                movable: true,
+                minCropBoxWidth: 50,
+                minCropBoxHeight: 50,
+                autoCropArea: 0,
+                checkOrientation: true,
+                minContainerWidth: jQuery('#image').parent().width(),
+                minContainerHeight: jQuery('#image').parent().height(),
+                strict: false,
+                viewMode: 1,
+                preview: '.preview',
+                ready: function(e) {
+
+                    setTimeout(() => {
+                        cropper.crop()
+//                     document.querySelector('.cropper-container').style.height = "500px !important";
+                    }, 1000);
+
+                },
+                crop: function(e) {
+                    let imgSrc = cropper.getCroppedCanvas({
+                        width: jQuery('#image').parent().width(),
+                        height: jQuery('#image').parent().height()
+                    }).toDataURL();
+                    document.querySelector('#imgresult').src = imgSrc;
+                    setTimeout(() => {
+                        initcanvas()
+                    }, 500);
+                }
+            });
+
+            cropper = $image.data('cropper');
+			
+      		
+            
+            modal.style.display = "block";
+        })
+    };
+
+
+};
+
+function initcanvas() {
+    var canvas = document.querySelector('.canvasresult');
+    var ctx = canvas.getContext('2d')
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    canvas.width = 800;
+    canvas.height = 800;
+  
+    var loadframe = document.querySelector('#frame');
+    var loadimage = document.querySelector('#imgresult')
+
+    ctx.drawImage(loadframe, 0, 0, 800, 800);
+    ctx.drawImage(loadimage, 161, 211, (800 - 320), (800 - 443));
+//   setTimeout(function(){
+    console.log('resize')
+    document.querySelector('.canvasresult').style.width = document.querySelector('.preview_mobile_col').offsetWidth + "px"
+//   },3000)
+  	
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    var words = text.split(' ');
+    var line = '';
+
+    for (var n = 0; n < words.length; n++) {
+        var testLine = line + words[n] + ' ';
+        var metrics = ctx.measureText(testLine);
+        var testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+            ctx.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, x, y);
+}
+
+function fitTextOnCanvas(context, canvas, text, fontface, xPosition, yPosition) {
+    var fontsize = 85;
+    do {
+        fontsize--;
+        context.font = fontsize + "px " + fontface;
+    } while (context.measureText(text).width > canvas.width)
+
+    context.fillText(text, xPosition, yPosition);
+}
+
+function fitTextOnCanvasWithSpace(context, canvas, text, fontface, xPosition, yPosition) {
+    var fontsize = 45;
+    do {
+        fontsize--;
+        context.font = fontsize + "px " + fontface;
+    } while (context.measureText(text).width > (canvas.width - 100))
+
+    context.fillText(text, xPosition, yPosition);
+}
+
+var imgEle1 = document.querySelector('.slider-banner-image img')
+
+// In Loving Memory Product
+const DH20 = (event) => {
+	console.log(event)
+    
+    document.querySelector('.slick-active #main_prod_img').style.display = "none";
+    document.querySelector('.slick-active .result').style.display = "none"
+    document.querySelector('.slick-active .custom-loader').style.display = "block"
+    
+    let imgurl = event.getAttribute('data-value');
+    var e = event
+    let newimg = new Image(imgEle1.width, imgEle1.height)
+    
+    newimg.onload = function() {
+      document.getElementById('main_prod_img').style.display = "block";
+
+      let cdate = document.querySelector('input[name="letter"]').value;
+      let ctext = document.querySelector('#chooseText').value;
+      let resEle = document.querySelector(".result");
+
+      var context = resEle.getContext("2d");
+      context.clearRect(0, 0, resEle.width, resEle.height);
+      resEle.width = newimg.width;
+      resEle.height = newimg.height;
+      context.drawImage(newimg, 0, 0, resEle.width, resEle.height);
+
+      var maxWidth = newimg.width - 110;
+      var lineHeight = 24;
+      var text = ctext.toUpperCase();
+      var fontSize = 85;
+      if (newimg.width < 450) {
+          fontSize = 35
+      }
+      context.font = fontSize + 'px Stardos Stencil';
+      context.fillStyle = 'white';
+      context.textBaseline = 'middle';
+      context.textAlign = 'center';
+
+  //     wrapText(context, text.substring(0, 14), resEle.width / 2, (resEle.height - 50) / 2, maxWidth, lineHeight)
+      fitTextOnCanvasWithSpace(context, resEle, text.substring(0, 14), "Stardos Stencil", resEle.width / 2, (resEle.height - 50) / 2);
+      customProperties._text = text.substring(0, 14)
+      var text = cdate.toUpperCase();
+      context.font = fontSize + 'px Stardos Stencil';
+      context.fillStyle = 'white';
+      //       context.fillText(text, resEle.width/2, (resEle.height+175)/2);
+  //     wrapText(context, text.substring(0, 11), resEle.width / 2, (resEle.height + 175) / 2, maxWidth, lineHeight)
+    fitTextOnCanvasWithSpace(context, resEle, text.substring(0, 11), "Stardos Stencil", resEle.width / 2, (resEle.height + 75) / 2);
+      customProperties._date = text.substring(0, 11)
+	  
+      if(load)
+      {
+//       	document.getElementById('main_prod_img').style.display = "none";
+//       	document.querySelector('.result').style.display = "block"
+//       	document.querySelector('.slick-active .custom-loader').style.display = "none"
+        
+        document.querySelector('.slick-active #main_prod_img').style.display = "none";
+        document.querySelector('.slick-active .result').style.display = "block"
+        document.querySelector('.slick-active .custom-loader').style.display = "none"
+      }
+      
+
+      if (!load) {
+          load = true
+          setTimeout(function() {
+              DH20(e)
+          }, 1000)
+      }
+		
+    };
+    newimg.src = imgurl;
+}
+
+// Antler Product
+const DH14 = () => {
+
+    document.getElementById('main_prod_img').style.display = "none";
+    document.querySelector('.slick-active .custom-loader').style.display = "block"
+
+    let cdate = document.querySelector('input[name="typename"]').value;
+    let resEle = document.querySelector(".result");
+
+    var context = resEle.getContext("2d");
+    context.fillStyle = 'white';
+    context.clearRect(0, 0, resEle.width, resEle.height);
+    resEle.width = 600;
+    resEle.height = 600;
+    var maxWidth = 600 - 110;
+    var lineHeight = 24;
+    let newimg = new Image(600, 600)
+    newimg.onload = function() {
+        context.drawImage(newimg, 0, 0, resEle.width, resEle.height);
+
+        //       context.drawImage(newimg, resEle.width / 2 - newimg.width / 2,
+        //         resEle.height / 2 - newimg.height / 2, resEle.width, resEle.height);
+
+        var maxWidth = 600 - 110;
+        var lineHeight = 24;
+        var text = cdate.toUpperCase();
+        var fontSize = 55;
+        if (imgEle1.clientWidth < 450) {
+            //         fontSize = 20
+        }
+        context.font = '600 ' + fontSize + 'px Georgia';
+        context.fillStyle = 'black';
+        context.textBaseline = 'middle';
+        context.textAlign = 'center';
+
+        wrapText(context, text.substring(0, 14), resEle.width / 2, (resEle.height + 220) / 2, maxWidth, lineHeight)
+
+        customProperties._text = text.substring(0, 10)
+
+        document.querySelector('.slick-active .custom-loader').style.display = "none"
+        document.getElementById('main_prod_img').style.display = "none";
+        document.querySelector('.result').style.display = "block"
+
+
+        if (!load) {
+            load = true
+            setTimeout(function() {
+                //             DH14()
+            }, 1000)
+
+        }
+    };
+    newimg.src = document.querySelector('input[name="typename"]').getAttribute('data-value');
+}
+
+// Custom Word Text Product
+const C1 = () => {
+
+    document.getElementById('main_prod_img').style.display = "block";
+
+    let cdate = document.querySelector('input[name="customletter"]').value;
+    let resEle = document.querySelector(".result");
+
+    var context = resEle.getContext("2d");
+    context.fillStyle = 'white';
+    context.clearRect(0, 0, resEle.width, resEle.height);
+    resEle.width = imgEle1.clientWidth;
+    resEle.height = imgEle1.clientHeight;
+
+    var maxWidth = imgEle1.clientWidth - 110;
+    var lineHeight = 24;
+    var text = cdate.toUpperCase();
+    var fontSize = 85;
+    if (imgEle1.clientWidth < 450) {
+        fontSize = 35
+    }
+
+    context.textBaseline = 'middle';
+    context.textAlign = 'center';
+
+    let sub = document.querySelector(['[data-index="option1"']).value
+
+    if (sub == "1-4 Letters") {
+        sub = 4
+        document.querySelector('input[name="customletter"]').setAttribute('maxlength', 4)
+    }
+    if (sub == "5-8 Letters") {
+        sub = 8
+        document.querySelector('input[name="customletter"]').setAttribute('maxlength', 8)
+    }
+    if (sub == "9-14 Letters") {
+        sub = 14
+        document.querySelector('input[name="customletter"]').setAttribute('maxlength', 14)
+    }
+    if (sub == "14-20 Letters") {
+        sub = 20
+        document.querySelector('input[name="customletter"]').setAttribute('maxlength', 20)
+    }
+
+    fitTextOnCanvas(context, resEle, text.substring(0, sub), "Autumn in November", resEle.width / 2, (resEle.height - 50) / 2);
+
+    customProperties._text = text.substring(0, sub)
+
+    document.getElementById('main_prod_img').style.display = "none";
+    document.querySelector('.result').style.display = "block"
+
+    if (!load) {
+        load = true
+        setTimeout(function() {
+            C1()
+        }, 1000)
+
+    }
+}
+
+// Add to cart
+function addtocart() {
+    jQuery.post('/cart/add.js', {
+        items: [{
+            quantity: 1,
+            id: ShopifyAnalytics.meta.selectedVariantId,
+            properties: customProperties
+        }]
+    }, function(res) {
+        console.log(res)
+        window.location.replace('/cart')
+    });
+}
+
+// Add to cart button custom event
+document.querySelector('.add_to_cart_btn button').onclick = function(e) {
+    console.log('add to cart custom')
+    e.preventDefault()
+    addtocart()
+}
+</script>
+<script src="{{ 'product-customizer.js' | asset_url }}" defer></script>
+<style>
+.custom-loader {
+  border: 10px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 10px solid #000;
+  width: 75px;
+  height: 75px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+<style>
+  
+  .fontPreloader{
+    font-family: 'Stardos Stencil';
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+}
+  /* Swatches Styles */
+
+  {% assign width = '50px' %}
+  {% assign height = '35px' %}
+  .swatch { 
+    padding: 1em 0 0.7em;
+    border-top: 1px solid #ccc;
+    overflow: auto;
+  }
+  /* Label */
+  .swatch .header {
+    margin: 0.5em 0;
+  }
+  /* Hide radio buttons.*/
+  .swatch input { 
+    display:none;
+  }
+  .swatch label {
+    /* Rounded corners */
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    border-radius:2px;
+    /* To give width and height */
+    float:left;
+    /* Color swatches contain no text so they need to have a width. */
+    min-width:{{ width }} !important; 
+    height:{{ height }} !important;
+    /* No extra spacing between them */
+    margin:0;
+    /* The border when the button is not selected */
+    border:#ccc 1px solid;
+    /* Background color */
+    background-color:#ddd;
+    /* Styling text */
+    font-size:13px;
+    text-align:center;
+    line-height:{{ height }};
+    white-space:nowrap;
+    text-transform:uppercase;
+  }
+  .swatch-element label { padding:0 10px; }
+  .color.swatch-element label { padding:0; }
+  /* Styling selected swatch */
+  /* Slightly raised */
+  .swatch input:checked + label {
+    -webkit-box-shadow:0px 1px 2px rgba(0,0,0,0.8);
+    -moz-box-shadow:0px 1px 2px rgba(0,0,0,0.8);
+    box-shadow:0px 1px 2px rgba(0,0,0,0.8);
+    border-color:transparent;
+  } 
+  .swatch .swatch-element {
+    float:left;
+    -webkit-transform:translateZ(0); /* webkit flicker fix */
+    -webkit-font-smoothing:antialiased; /* webkit text rendering fix */
+    /* Spacing between buttons */
+    margin:0px 10px 10px 0;
+    /* To position the sold out graphic and tooltip */
+    position:relative;
+    width:46%;
+  }
+  /* Image with the cross in it */
+  .crossed-out { position:absolute; width:100%; height:100%; left:0; top:0; }
+  .swatch .swatch-element .crossed-out { display:none; }
+  .swatch .swatch-element.soldout .crossed-out { display:block; }
+  .swatch .swatch-element.soldout label {
+    filter: alpha(opacity=60); /* internet explorer */
+    -khtml-opacity: 0.6;      /* khtml, old safari */
+    -moz-opacity: 0.6;       /* mozilla, netscape */
+    opacity: 0.6;           /* fx, safari, opera */
+  }
+  /* Tooltips */
+  .swatch .tooltip {
+    text-align:center;
+    background:gray;
+    color:#fff;
+    bottom:100%;
+    padding: 10px;
+    display:block;
+    position:absolute;
+    width:100px;
+    left:{{ width | remove: 'px' | divided_by: 2 | minus: 50 | plus: 2 }}px;
+    margin-bottom:15px;
+    /* Make it invisible by default */
+    filter:alpha(opacity=0);
+    -khtml-opacity: 0;
+    -moz-opacity: 0;
+    opacity:0;
+    visibility:hidden;
+    /* Animations */
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    -ms-transform: translateY(10px);
+    -o-transform: translateY(10px);
+    transform: translateY(10px);
+    -webkit-transition: all .25s ease-out;
+    -moz-transition: all .25s ease-out;
+    -ms-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+    -webkit-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    -moz-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    -ms-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    -o-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    z-index: 10000;
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box; 
+    box-sizing:border-box;
+  }
+  .swatch .tooltip:before {
+    bottom:-20px;
+    content:" ";
+    display:block;
+    height:20px;
+    left:0;
+    position:absolute;
+    width:100%;
+  }
+  /* CSS triangle */
+  .swatch .tooltip:after {
+    border-left:solid transparent 10px;
+    border-right:solid transparent 10px;
+    border-top:solid gray 10px;
+    bottom:-10px;
+    content:" ";
+    height:0;
+    left:50%;
+    margin-left:-13px;
+    position:absolute;
+    width:0;
+  }
+  .swatch .swatch-element:hover .tooltip {
+    filter:alpha(opacity=100);
+    -khtml-opacity:1;
+    -moz-opacity:1;
+    opacity:1;
+    visibility:visible;
+    -webkit-transform:translateY(0px);
+    -moz-transform:translateY(0px);
+    -ms-transform:translateY(0px);
+    -o-transform:translateY(0px);
+    transform:translateY(0px);
+  }
+  .swatch.error {
+    background-color:#E8D2D2!important;
+    color:#333!important;
+    padding:1em;
+    border-radius:5px;
+  }
+  .swatch.error p {
+    margin:0.7em 0;
+  }
+  .swatch.error p:first-child {
+    margin-top:0;
+  }
+  .swatch.error p:last-child {
+    margin-bottom:0;
+  }
+  .swatch.error code {
+    font-family:monospace;
+  }
+  
+  
+  /*USE CSS for Slider*/
+
+  .vehicle-detail-banner .car-slider-desc {
+    max-width: 180px;
+    margin: 0 auto;
+  }
+  .banner-slider .slider.slider-for {
+    max-width: 84%;
+    padding-right: 35px;
+  }
+  .banner-slider .slider.slider-nav {
+    max-width: 16%;
+  }
+  .banner-slider .slider.slider-for,
+  .banner-slider .slider.slider-nav {
+    width: 100%;
+    float: left;
+  }
+  .banner-slider .slider.slider-nav {
+/*     height: 610px; */
+    overflow: hidden;
+
+  }
+/*   .slider-banner-image {
+    height: 610px;
+  } */
+  .banner-slider .slider.slider-nav {
+    padding: 20px 0 0;
+  }
+  .slider-nav .slick-slide.thumbnail-image .thumbImg{
+    max-width: 178px;
+    height: 110px;
+    margin: 0 auto;
+    border: 1px solid #EBEBEB;
+  }
+  .slider-banner-image img,
+  .slider-nav .slick-slide.thumbnail-image .thumbImg img {
+    height: 100%;
+    width:100%;
+    object-fit: cover;
+  }
+  .slick-vertical .slick-slide:active,
+  .slick-vertical .slick-slide:focus,
+  .slick-arrow:hover,
+  .slick-arrow:focus {
+    border: 0;
+    outline: 0;
+  }
+  .slider-nav .slick-slide.slick-current.thumbnail-image .thumbImg {
+    border: 2px solid #196DB6;
+  }
+  .slider-nav .slick-slide.slick-current span {
+    color: #196DB6;
+  }
+  .slider-nav .slick-slide {
+    text-align: center;
+  }
+  .slider-nav .slick-slide span {
+    font-size: 14px;
+    display: block;
+    padding: 5px 0 15px;
+  }
+  .slick-arrow {
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-size: 0;
+    height: 18px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 99;
+  }
+  .slick-prev {
+    top: 0;
+  }
+  .slick-next {
+    bottom: 0;
+    background-color: #fff;
+  }
+  .slick-prev.slick-arrow {
+    background-image: url(../images/black-up-arrow.png);
+  }
+  .slick-next.slick-arrow {
+    background-image: url(../images/black-down-arrow.png);
+  }
+  /*End USE CSS for Slider*/
+
+  .qty_wrapper{
+    position: relative;
+  }
+  .qty_wrapper .plus {
+    position: absolute;
+    top: 23px;
+    transform: translateY(-50%);
+    max-width: 15px;
+    left: 33px;
+    height: 10px;
+    width: 15px;
+  }
+  .qty_wrapper .plus img,.qty_wrapper .minus img{
+    width:100%;
+  }
+  .qty_wrapper .minus {
+    position: absolute;
+    top: 28px;
+    max-width: 15px;
+    left: 33px;
+    height: 10px;
+    width: 15px;
+  }
+  
+  .ctm_disabled{
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .plus svg, .minus svg {
+      position: absolute;
+  }
+ 
+  
+  /*updated css*/
+  .custom_product_wrapper {
+    background: #fcfcfc;
+  }
+  .product_inner {
+    display: flex;
+  }
+  .product_image {
+    width: 60%;
+  }
+  .product_info{
+    width:40%;
+    padding-left:30px;
+  }
+  .slick-slide img {
+    display: block;
+    max-width: 100%;
+  }
+  .banner-slider .slider.slider-nav{
+    padding:0;
+  }
+  .banner-slider {
+    display: flex;
+/*     align-items: center; */
+  }
+  .banner-slider .slider.slick-slider {
+    border-left: 1px solid #dfdfdf;
+  }
+  .product_info_iner {
+    max-width: 450px;
+    background: #fff;
+    height: 100%;
+    padding:35px;
+    border-left: 1px solid #dfdfdf;
+    border-right: 1px solid #dfdfdf;
+  }
+  .slick-vertical .slick-slide{
+    opacity:0.5;
+    cursor:pointer;
+    border:0;
+  }
+  .slick-vertical .slick-slide.slick-current{
+    opacity:1;
+  }
+/*   .product-form__controls-group {
+    display: none;
+  } */
+  .slick-vertical .slick-slide *:focus{
+    outline none;
+    box-shadow:none;
+  }
+  .banner-slider .slider.thumb-image.slick-slider {
+    border-left: 0;
+  }
+  .title_and_review{
+    border-bottom:1px solid #ccc;
+    padding-bottom:15px;
+    margin-bottom:15px;
+  }
+  .title_and_review h2 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0 0 10px;
+  }
+  h1,h2,h3,h4,h5,h6{
+    font-weight:700;
+  }
+  .description{
+    margin-bottom:20px;
+  }
+  .description h4{
+    margin:0 0 10px;
+  }
+  .description .rte{
+    font-size:14px; line-height: normal;
+    color:#a7a7a7;
+  }
+  .swatch_wrapper {
+/*     display: flex; */
+  }
+  .swatch_wrapper {
+/*     display: flex; */
+/*     border-top: 1px solid #ccc; */
+    border-bottom: 1px solid #ccc;
+  }
+/*   .swatch.swatch--color {
+    width: 40%;
+    border-right: 1px solid #ccc;
+    margin:0;
+    padding:15px 25px 15px 0;
+  }
+  .swatch.swatch--size {
+    padding: 15px 0 15px 25px;
+    margin:0;
+    width:90%;
+  } */
+  span.swatch_label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;    
+  }
+  .swatch .tooltip{
+    display:none;
+  }
+  .swatch label{
+    min-width:35px !important;
+    cursor:pointer;
+  }
+  .swatch.swatch--color input:checked + label {
+    box-shadow: none;
+    transform: scale(1.2);
+  }
+  .swatch label {
+    border: 0;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    padding:0 15px;
+  }
+  .swatch input:checked + label {
+    box-shadow: inset 0 0 5px #ccc;
+    background: #f5f5f5;
+  }
+  .upload_img_wrapper {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+  }
+  .custom_name_letter_wrapper {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+  }
+  .choose_file {
+    width: 50%;
+    padding:15px 25px 15px 0;
+    border-right: 1px solid #ccc;
+  }
+  .upload_image{
+    width: 50%;
+    padding: 15px 0 15px 25px;
+  }
+  .upload_image h4 {
+    margin: 0 0 10px;
+  }
+  .upload_image span {
+    font-size: 12px;
+    line-height: 20px;
+    display: block;
+  }
+  input[type="file"] {
+    width: 100%;
+  }
+  
+  .choose_letter{
+    width: 40%  !important;
+    border: 0;
+    padding:15px 25px 15px 0;
+    border-right: 1px solid #ccc;
+    display:block;
+  }
+  .quantity_price {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+  }
+  .quantity {
+    width: 50%;
+    border: 0;
+    padding:15px 25px 15px 0;
+    border-right: 1px solid #ccc;
+    display:block;
+    border-radius: 0;
+  }
+  .quantity_onethird {
+    width: 25%  !important;
+    border: 0;
+    padding:15px 25px 15px 25px;
+    border-right: 1px solid #ccc;
+    display:block;
+  }
+  .price{
+    width: 50%;
+    padding: 15px 0 15px 25px;
+  }
+  .price_onethird{
+    width: 25% !important;
+    padding: 15px 0 15px 25px;
+  }
+  .quantity label {
+    display: block;
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  input#quantity {
+    border: 0;
+    width: 60px;
+    height: 47px;
+    border-radius: 6px;
+    box-shadow: inset 0 0 7px #b9b9b9;
+    padding: 5px 10px;
+    font-weight: 700;
+    color: #000;
+    font-size: 19px;
+  }
+  *:focus{outline: none !important;}
+  .price label{
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+  .price .regular_price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+  }
+  .add_to_cart_btn, .yo-btn {
+    margin-top: 15px;
+  }
+  .add_to_cart_btn .add_to_cart.btn, .yo-btn button {
+    background: #ff0e2a;
+    border: 0;
+    color: #fff;
+    padding: 0 30px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 30px;
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    min-width: 150px;
+    cursor:pointer;
+  }
+  .add_to_cart_btn .add_to_cart.btn:hover, .yo-btn button:hover{
+    background:#000;
+  }
+  .choose_file .choose_file_btn {
+    padding: 10px 10px;
+    min-width:150px;
+    box-shadow: inset 0px 3px 7px #b9b9b9;
+    border-radius: 10px;
+    font-weight: 500;
+    color: #ccc;
+    margin-bottom: 5px;
+    display: inline-block;
+    letter-spacing:0;
+    cursor:pointer;
+  }
+  .choose_file .file_name {
+    display: block;
+    font-size: 14px;
+    color: #ababab;
+    overflow: hidden;
+  }
+  .product_info_iner form {
+    display: block;
+    position: sticky;
+    top: 10px;
+  }
+	
+  input#chooseText {
+    border: 0;
+    width: 100%;
+    height: 47px;
+    border-radius: 6px;
+    box-shadow: inset 0 0 7px #b9b9b9;
+    padding: 5px 10px;
+    font-weight: 700;
+    color: #000;
+    font-size: 14px;
+  }
+  
+  .choose_text {
+    width: 50%;
+    padding: 15px 0 15px 25px;
+/*     border-right: 1px solid #ccc; */
+  }
+  
+  .margtop-0{
+    margin-top:0px;
+  }
+    
+  .custom_name_letter_wrapper .choose_letter{
+    width: 50%  !important;
+    border: 0;
+    padding:15px 25px 15px 0;
+    border-right: 1px solid #ccc;
+    display:block;
+  }
+  
+  .pick_a_date input{
+    width: 100% !important;
+  }
+  
+  .pick_a_date .plus{
+    left: 85% !important;
+  }
+  .pick_a_date .minus{
+    left: 85% !important;
+  }
+  
+  .swatch_custom_width .swatch--color{
+    width:20% !important;
+  }
+  .swatch_custom_width .swatch--size{
+    width:80% !important;
+  }
+  
+  .custom_inner_width .choose_text{
+    
+    width:100% !important;
+ 
+  }
+    
+  
+   @media screen and (max-width : 991px) {
+
+    .banner-slider .slider.slider-for,
+    .banner-slider .slider.slider-nav {
+      max-width: 100%;
+      float: none;
+    }
+    .banner-slider .slider.slider-for {
+      padding-right: 0;
+    }
+    .banner-slider .slider.slider-nav {
+      height: auto;
+    }
+/*     .slider-banner-image {
+      height: 500px;
+    }  */
+    .slider.slider-nav.thumb-image {
+      padding: 10px 30px 0;
+    }
+    .slider-nav .slick-slide span {
+      padding: 5px 0;
+    }
+    .slick-arrow {
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      top: 50%;
+      bottom: 0;
+      -webkit-transform: translateY(-50%) rotate(-90deg);
+      -moz-transform: translateY(-50%) rotate(-90deg);
+      -ms-transform: translateY(-50%) rotate(-90deg);
+      transform: translateY(-50%) rotate(-90deg);
+    }
+    .slick-prev {
+      left: 0;
+      right: unset;
+    }
+    .slick-next {
+      left: unset;
+      right: 0;
+      background-color: transparent;
+    }
+    .vehicle-detail-banner .car-slider-desc {
+      max-width: 340px;
+    }
+    .bid-tag {
+      padding: 10px 0 15px;
+    }
+    .slider.slider-nav.thumb-image {
+      white-space: nowrap;
+    }
+    .thumbnail-image.slick-slide {
+      padding: 0px 5px;
+      min-width: 75px;
+      display: inline-block;
+      float: none;
+    }
+     .product_inner{
+       flex-wrap: wrap;
+     }
+     .product_inner .product_image{
+       width: 100%;
+     }
+     
+     .product_inner .product_info{
+       width: 100%;
+       padding-left: 0;
+     }
+     .product_inner .product_info .product_info_iner{
+       max-width: 100%;
+     }
+     .banner-slider{
+       flex-wrap: wrap;
+       flex-direction: column-reverse;
+     }
+     .slider-banner-image {
+        height: 100% !important;
+    }
+     .slider-banner-image .result {
+        display: none;
+    }
+  }
+
+  @media screen and (max-width : 767px) {
+/*     .slider-banner-image {
+      height: 400px;
+    } */
+    .slider.slider-nav.thumb-image {
+      padding: 0px 20px 0;
+      margin: 10px 0px 0;
+    }
+    .slider-nav .slick-slide.thumbnail-image .thumbImg {
+      max-width: 140px;
+      height: 80px;
+    }
+    .slick-prev.slick-arrow {
+      background-position: center 10px;
+    }
+    .slick-next.slick-arrow {
+      background-position: center 10px, center;
+    }
+    .slider-nav .slick-slide span {
+      font-size: 12px;
+      white-space: normal;
+    }
+  }
+  
+  .swatch .swatch-element{
+    width: auto;
+ 
+    
+}
+  
+  
+  
+/* choose letter style */
+label.swatch_label {
+    font-weight: 600;
+}
+.selector-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 0;
+    border-bottom: 1px solid #ccc;
+}
+.selector-wrapper select {
+    background-color: transparent;
+    border: 0;
+    width: 60px;
+    height: 47px;
+    border-radius: 6px;
+    box-shadow: inset 0 0 7px #b9b9b9;
+    padding: 5px 10px;
+    font-weight: 700;
+    color: #000;
+    font-size: 19px;
+}
+.selector-wrapper select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}
+.custom-select {
+    width: 60px;
+    height: 47px;
+    position: relative;
+    background-color: #fff;
+    z-index: 1;
+}
+.custom-select::before {
+    content: "";
+    background-image: url(https://cdn.shopify.com/s/files/1/0557/0989/2656/t/1/assets/arrow.png?v=9880988789618721875);
+    background-size: cover;
+    width: 18px;
+    height: 9px;
+    padding: 5px;
+    position: absolute;
+    right: 7px;
+    top: 40%;
+    transform: rotate(180deg);
+    z-index: -1;
+}
+canvas.result {
+    width: 100%;
+}
+  
+  
+</style>
+    
+    <style>
+    .container {
+      /* max-width: 960px; */
+      /* margin: 20px auto; */
+    }
+
+    img {
+/*       max-width: 90%; */
+    }
+
+    .row,
+    .preview {
+      overflow: hidden;
+    }
+
+    .preview,
+    .frame {
+      display: none;
+    }
+
+    .col {
+      float: left;
+    }
+
+    .col-6 {
+      width: 50%;
+    }
+
+    .col-3 {
+      width: 25%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      /* Stay in place */
+      z-index: 1;
+      /* Sit on top */
+      padding-top: 100px;
+      /* Location of the box */
+      left: 0;
+      top: 0;
+      opacity: 1;
+      width: 100%;
+      max-width: 100%;
+      /* Full width */
+      height: 100%;
+      /* Full height */
+      overflow: auto;
+      /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0);
+      /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4);
+      /* Black w/ opacity */
+      
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+      
+      
+    .quantity:after {
+      box-shadow: none;
+    }
+    .yo-btn-style {
+        display: flex;
+        flex-wrap: wrap;
+      	gap: 20px;
+    }
+    @media(max-width:450px){
+      .yo-btn-style {
+        justify-content: space-between;
+        gap: 0;
+      }
+    }
+      #ProductSelect-custom-product {
+          display: none;
+      }
+  </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+  $('.slider-for').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: true,
+    adaptiveHeight: true,
+    asNavFor: '.slider-nav'
+  });
+  $('.slider-nav').slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    vertical:true,
+    asNavFor: '.slider-for',
+    dots: false,
+    focusOnSelect: true,
+    verticalSwiping:true,
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          vertical: false,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          vertical: false,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 580,
+        settings: {
+          vertical: false,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 380,
+        settings: {
+          vertical: false,
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      }
+    ]
+  });
+  });
+</script>
+{% schema %}
+{
+  "name": "t:blocks.drophook-template.name",
+  "templates": ["product"],
+  "target": "section",
+  "stylesheet": "drophook.css",
+  "settings": []
+}
+{% endschema %}

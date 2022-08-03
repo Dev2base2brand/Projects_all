@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. John Doe",
+    "image": "/images/doctors/team01.png",
+    "profession": "CT Scan Specialist"
+  },
+  {
+    "id": 2,
+    "name": "Dr. Robber Martin",
+    "image": "/images/doctors/team02.png",
+    "profession": "Dental Surgeon"
+  },
+  {
+    "id": 3,
+    "name": "Dr. Stefania Lorens",
+    "image": "/images/doctors/team03.png",
+    "profession": "Dermatology Specialist"
+  },
+  {
+    "id": 4,
+    "name": "Dr. Martin",
+    "image": "/images/doctors/team04.png",
+    "profession": "General Surgery Expert"
+  },
+  {
+    "id": 5,
+    "name": "Dr. Stephen",
+    "image": "/images/doctors/team05.png",
+    "profession": "Labrotory Expert"
+  },
+  {
+    "id": 6,
+    "name": "Dr. Natalia",
+    "image": "/images/doctors/team06.png",
+    "profession": "Neuro Surgeon"
+  },
+  {
+    "id": 7,
+    "name": "Dr. Natasha",
+    "image": "/images/doctors/team07.png",
+    "profession": "Women Care Specialist"
+  },
+  {
+    "id": 8,
+    "name": "Dr. Jonny Ive",
+    "image": "/images/doctors/team08.png",
+    "profession": "Orthopaedic Specialist"
+  }
+]
